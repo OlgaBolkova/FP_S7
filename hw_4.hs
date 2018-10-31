@@ -67,16 +67,18 @@ list (x, y) k | x<0 = list (divMod (-x) 10) (k+1)
 -- Найдите решение с линейным временем работы — O(n).
 -- функция - алгоритм
 funct :: (Eq a) => a -> Integer -> [a] -> a
-funct s c [] = s
+-- funct :: Char -> Integer -> [Char] -> Char
 funct s c (x:xs) | c==0 = funct x (c+1) xs
                  | otherwise = if s==x then funct s (c+1) xs else funct s (c-1) xs
+funct s c [] = s
 -- функции для проверки результата - поиск утечки
 coun_t :: (Eq a) => [a]->Int
+-- изменила верхнюю функцию
 coun_t xs = length $ filter (==(funct (head xs) 0 xs)) xs
 -- основная функция 
 sho_w :: (Eq a) => [a]-> Maybe a
 sho_w xs = if ((coun_t xs)>((length xs) `div` 2)) then Just(funct (head xs) 0 xs) else Nothing
--- в результате по списку проходмся мах 3 раза (3n). Сам алгоритм требует одно прохождение 
+-- в результате по списку проходмся мах 3 раза (3n). Сам алгоритм требует одно прохождение
 -- по списку, но так как существуют проверки число прохождений увеличивается до 3 раз
 
 -- 5 ---------------------------------
@@ -91,8 +93,8 @@ f g n | n==0 = g
 -- n-го члена последовательности Фибоначчи
 -- Основная функция 
 last_fibb :: Integer -> Integer
-last_fibb y = last(list z)
-                where z = fibb (0,0,1) y
+last_fibb y = last(list (z,0) 0)
+                 where z = fibb (0,0,1) y
 -- функция list описана выше 
 -- функция нахождения n-го члена последовательности Фибоначчи
 fibb :: (Integer,Integer,Integer) -> Integer -> Integer
