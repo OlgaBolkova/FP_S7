@@ -1,3 +1,6 @@
+-- FP_S7
+-- Боровикова Ольга, №5381
+
 import Data.Char
 import Data.List
 import Data.Foldable
