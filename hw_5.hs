@@ -110,6 +110,7 @@ instance Foldable Levelorder where
                         lrn (LevelO (Node Nil _ r)) = [LevelO r]
                         lrn (LevelO (Node l _ Nil)) = [LevelO l]
                       --  lrn (LevelO (Node l _ r)) = [LevelO l, LevelO r]
+                      -- сначала будем рассматривать правое поддерево
                         lrn (LevelO (Node l _ r)) = [LevelO r, LevelO l]
 
 -- пример дерева и его обходы
