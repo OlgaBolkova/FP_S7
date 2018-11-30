@@ -29,7 +29,8 @@ triplewiseSum xs ys zs = zipWith (+) xs (zipWith (+) ys zs)
 revRange :: (Char, Char) -> [Char] 
 revRange = unfoldr fun 
 fun (a, b) | b < a = Nothing
-           | b == '\NUL' = Just (b, (succ a, b)) -- в Just первый аргумент тот символ, которой пишется в список,
+--           | b == '\NUL' = Just (b, (succ a, b)) -- в Just первый аргумент тот символ, которой пишется в список,
+           | b == minBound = Just (b, (succ a, b)) -- в Just первый аргумент тот символ, которой пишется в список,
 -- второй посылается на обработку функции
            | otherwise = Just (b, (a, pred b))
  
@@ -99,6 +100,8 @@ instance Foldable Levelorder where
          foldMap f tree = fold_map f (bfs [tree]) where
                 fold_map f [] = mempty
                 fold_map f (x:xs) = f x <> fold_map f xs
+               -- поменяем порядок обработки
+                -- fold_map f (x:xs) = fold_map f xs <> f x 
 
                 bfs [] = []
                 bfs xs = map idNode xs ++ bfs(concat(map lrn xs)) where
@@ -106,7 +109,8 @@ instance Foldable Levelorder where
                         lrn (LevelO (Node Nil _ Nil)) = []
                         lrn (LevelO (Node Nil _ r)) = [LevelO r]
                         lrn (LevelO (Node l _ Nil)) = [LevelO l]
-                        lrn (LevelO (Node l _ r)) = [LevelO l, LevelO r]
+                      --  lrn (LevelO (Node l _ r)) = [LevelO l, LevelO r]
+                        lrn (LevelO (Node l _ r)) = [LevelO r, LevelO l]
 
 -- пример дерева и его обходы
 -- foldMap id (PostO tree) -- вызов функции
